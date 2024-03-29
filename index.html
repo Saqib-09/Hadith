@@ -9,37 +9,37 @@
 <script>
     let hadithData;
 
-        // Fetch the JSON file
-        fetch('https://raw.githubusercontent.com/salman0ansari/Random-Hadith-Generator/main/hadithAPI/bukhari.json')
-            .then(response => response.json())
-            .then(data => {
-                hadithData = data.hadith;
-		fetchRandomHadith();
-            });
+    fetch('https://raw.githubusercontent.com/salman0ansari/Random-Hadith-Generator/main/hadithAPI/bukhari.json')
+        .then(response => response.json())
+        .then(data => {
+            hadithData = data.hadith;
+            fetchRandomHadith();
+        });
 
-        function fetchRandomHadith() {
-            const randomIndex = Math.floor(Math.random() * hadithData.length);
-            const hadith = hadithData[randomIndex];
+    function fetchRandomHadith() {
+        const randomIndex = Math.floor(Math.random() * hadithData.length);
+        const hadith = hadithData[randomIndex];
+        updateHadithContent(hadith);
+    }
+
+    function fetchHadithById() {
+        const id = parseInt(document.getElementById('hadithId').value);
+        const hadith = hadithData.find(item => item.id === id);
+        if (hadith) {
             updateHadithContent(hadith);
+        } else {
+            alert('Hadith not found');
         }
+    }
 
-        function fetchHadithById() {
-            const id = parseInt(document.getElementById('hadithId').value);
-            const hadith = hadithData.find(item => item.id === id);
-            if (hadith) {
-                updateHadithContent(hadith);
-            } else {
-                alert('Hadith not found');
-            }
-        }
+    function updateHadithContent(hadith) {
+        document.getElementById('hadithText').innerText = `${hadith.hadith_english}`;
+        document.getElementById('reference').innerText = `Reference: ${hadith.refno}`;
+        document.getElementById('header').innerText = hadith.header.trim();
+        document.getElementById('hadithContainer').style.opacity = 1;
+    }
 
-        function updateHadithContent(hadith) {
-            document.getElementById('hadithText').innerText = `${hadith.hadith_english}`;
-            document.getElementById('reference').innerText = `Reference: ${hadith.refno}`;
-            document.getElementById('header').innerText = hadith.header.trim();
-            document.getElementById('hadithContainer').style.opacity = 1;
-        }
-	window.onload = fetchRandomHadith;
+    window.onload = fetchRandomHadith;
 
 </script>
 
