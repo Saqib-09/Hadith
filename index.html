@@ -17,7 +17,12 @@
         });
 
     function fetchRandomHadith() {
-        const randomIndex = Math.floor(Math.random() * hadithData.length);
+        document.getElementById('duaContainer').style.display = 'none';
+    document.getElementById('hadithContainer').style.display = 'block';
+    document.getElementById('randomDuaButton').style.display = 'block';
+  document.getElementById('randomHadithButton').style.display = 'none';
+
+	const randomIndex = Math.floor(Math.random() * hadithData.length);
         const hadith = hadithData[randomIndex];
         updateHadithContent(hadith);
     }
@@ -40,23 +45,26 @@
     }
 
     async function fetchRandomDua() {
-	console.log('Fetching random dua...');
-        const response = await fetch('https://raw.githubusercontent.com/Saqib-09/Hadith/main/duas.json');
-        const data = await response.json();
-        const randomIndex = Math.floor(Math.random() * data.dua.length);
-        const dua = data.dua[randomIndex];
+    document.getElementById('hadithContainer').style.display = 'none';
+    document.getElementById('duaContainer').style.display = 'block';
+    document.getElementById('randomHadithButton').style.display = 'block';
 
-        // Display the dua in a new design
-        document.getElementById('duaContainer').innerHTML = `
-            <div class="bg-white rounded-lg shadow-lg p-5 m-4">
-                <h1 class="text-xl font-semibold mb-4">Random Dua</h1>
-                <div class="text-lg">${dua.dua_arabic}</div>
-                <div class="text-sm italic mt-2">${dua.transliteration}</div>
-                <div class="text-md mt-2">${dua.translation}</div>
-                <div class="text-xs mt-2">${dua.info}</div>
-            </div>
-        `;
-    }
+    const response = await fetch('https://raw.githubusercontent.com/Saqib-09/Hadith/main/duas.json');
+    const data = await response.json();
+    const randomIndex = Math.floor(Math.random() * data.dua.length);
+    const dua = data.dua[randomIndex];
+
+    // Display the dua in a new design
+    document.getElementById('duaContainer').innerHTML = `
+        <div class="bg-white rounded-lg shadow-lg p-5 m-4">
+            <h1 class="text-xl font-semibold mb-4">Random Dua</h1>
+            <div class="text-lg">${dua.dua_arabic}</div>
+            <div class="text-sm italic mt-2">${dua.transliteration}</div>
+            <div class="text-md mt-2">${dua.translation}</div>
+            <div class="text-xs mt-2">${dua.info}</div>
+        </div>
+    `;
+}
 
     window.onload = fetchRandomHadith;
 
@@ -76,6 +84,8 @@
         </div>
     </div>
     <div id="duaContainer"></div>
-    <button onclick="fetchRandomDua()" class="absolute top-4 right-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Get Random Dua</button>
+    <button id="randomDuaButton" onclick="fetchRandomDua()" class="absolute top-4 right-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Get Random Dua</button>
+    <button id="randomHadithButton" onclick="fetchRandomHadith()" class="absolute top-4 right-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded hidden">Get Random Hadith</button>
+
 </body>
 </html>
