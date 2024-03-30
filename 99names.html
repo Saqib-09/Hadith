@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-gradient-to-r from-blue-500 to-green-500 flex justify-center items-center min-h-screen p-4">
+    <div class="text-center">
+        <div id="namesContainer" class="flex justify-center mb-8">
+            <!-- Names will be dynamically added here -->
+        </div>
+        <div class="flex justify-center">
+            <button id="previousNamesButton" onclick="fetchPreviousNames()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mx-2 hidden">Previous</button>
+            <button id="nextNamesButton" onclick="fetchNextNames()" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mx-2">Next</button>
+            <button id="allNamesButton" onclick="fetchAllNames()" class="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded mx-2">All</button>
+        </div>
+    <div class="flex justify-center items-center mt-4">
+    <input type="number" id="nameNumberInput" class="border border-gray-300 rounded-md p-2 mr-2 text-center" min="1" max="99" placeholder="Enter a number (1-99)">
+    <button id="getName" onclick="fetchNameByNumber()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Get Name</button>
+</div>
+</div>
+    <button id="backButton" onclick="goBack()" class="absolute top-4 left-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Go Back</button>
+
+    <script>
+        let currentNamesIndex = 0;
+        let allNames = [];
+
+        fetchNames(); // Fetch initial names
+
+        async function fetchNames() {
+            const response = await fetch('https://raw.githubusercontent.com/Saqib-09/Hadith/main/99names.json');
+            const data = await response.json();
+            allNames = data.data;
+            updateNames();
+        }
+
+        function updateNames() {
+    const namesContainer = document.getElementById('namesContainer');
+    namesContainer.innerHTML = '';
+    for (let i = currentNamesIndex; i < currentNamesIndex + 3; i++) {
+        if (allNames[i]) {
+            const name = allNames[i];
+            const nameBox = document.createElement('div');
+            nameBox.classList.add('bg-white', 'rounded-lg', 'shadow-lg', 'p-5', 'm-4', 'text-lg');
+            const foundText = `<span class="text-xs">${name.found}</span>`;
+	    nameBox.innerHTML = `<div><strong>${name.number}.</strong> <strong>${name.name}.</strong></div><div>(${name.transliteration}) - ${name.en.meaning}</div><div>${foundText}</div>`;
+            namesContainer.appendChild(nameBox);
+        }
+    }
+
+            updateButtons();
+        }
+
+        function updateButtons() {
+            document.getElementById('previousNamesButton').style.display = currentNamesIndex === 0 ? 'none' : 'block';
+            document.getElementById('nextNamesButton').style.display = currentNamesIndex + 3 >= allNames.length ? 'none' : 'block';
+        }
+
+        function fetchNextNames() {
+            currentNamesIndex += 3;
+            updateNames();
+        }
+
+        function fetchPreviousNames() {
+            currentNamesIndex -= 3;
+            updateNames();
+        }
+
+	function fetchNameByNumber() {
+    const numberInput = document.getElementById('nameNumberInput').value;
+    const number = parseInt(numberInput);
+    if (number >= 1 && number <= 99) {
+        const name = allNames.find(name => name.number === number);
+        if (name) {
+            const nameBox = document.createElement('div');
+            nameBox.classList.add('bg-white', 'rounded-lg', 'shadow-lg', 'p-5', 'm-4', 'text-lg');
+            const foundText = `<span class="text-xs">${name.found}</span>`;
+            const nameText = `<div><strong>${name.number}.</strong> <strong>${name.name}.</strong></div><div>(${name.transliteration}) - ${name.en.meaning}</div><div>${foundText}</div>`;
+            nameBox.innerHTML = nameText;
+            const namesContainer = document.getElementById('namesContainer');
+            namesContainer.innerHTML = '';
+            namesContainer.appendChild(nameBox);
+        } else {
+            alert('Name not found.');
+        }
+    } else {
+        alert('Please enter a number between 1 and 99.');
+    }
+}
+  function goBack() {
+            window.history.back();
+        }
+    </script>
+</body>
+</html>
