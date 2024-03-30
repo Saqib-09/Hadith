@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learn a Hadith</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        .scroll {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+
+<body class="bg-gradient-to-r from-blue-500 to-green-500 flex flex-col justify-center items-center min-h-screen p-4">
+
+     <div id="hadithContainer" class="max-w-md w-full bg-white rounded-lg shadow-lg p-5 m-4 transition-opacity duration-500 ease-in-out scroll">
+     <h1 class="text-start" id="header"></h1>
+     <div id="hadithText"></div>
+     <div id="reference" class="font-bold mt-3"></div>
+    </div>
+
+    <div class="flex flex-wrap justify-center mt-4">
+        <button onclick="moveToPrevious()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mx-2">Move to Previous</button>
+        <button onclick="moveToNext()" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mx-2">Move to Next</button>
+    </div> 
+
+    <div class="flex flex-wrap justify-center mt-3">
+    <input type="number" id="hadithId" placeholder="Enter Hadith Number" class="border border-gray-300 rounded-md p-2 mx-2">
+    <button onclick="fetchHadithById()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mx-2">Get Hadith by Number</button>
+    </div>
+    <button id="backButton" onclick="goBack()" class="absolute top-4 left-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Go Back</button>
+
+    <script>
+        let hadithData;
+        let currentIndex = 0;
+	
+    fetch('https://raw.githubusercontent.com/salman0ansari/Random-Hadith-Generator/main/hadithAPI/bukhari.json')
+            .then(response => response.json())
+            .then(data => {
+                hadithData = data.hadith;
+                fetchHadithByIndex(0);
+            });
+
+	function fetchHadithByIndex(index) {
+        currentHadithIndex = index;
+        const hadith = hadithData[index];
+        (hadith);
+	updateHadithContent(hadith) 
+    }
+
+        function updateHadithContent(hadith) {
+	    document.getElementById('header').innerText = hadith.header.trim();
+            document.getElementById('hadithText').innerText = `${hadith.hadith_english}`;
+            document.getElementById('reference').innerText = `Reference: ${hadith.refno}`;
+        }
+
+        function moveToNext() {
+            if (currentHadithIndex < hadithData.length - 1) {
+            fetchHadithByIndex(currentHadithIndex + 1);
+        }
+    }
+
+    function moveToPrevious() {
+        if (currentHadithIndex > 0) {
+            fetchHadithByIndex(currentHadithIndex - 1);
+        }
+    }
+
+        function fetchHadithById() {
+        const id = parseInt(document.getElementById('hadithId').value);
+        const index = hadithData.findIndex(item => item.id === id);
+        if (index !== -1) {
+            fetchHadithByIndex(index);
+        } else {
+            alert('Hadith not found');
+        }
+    }
+        function goBack() {
+            window.history.back();
+    }
+</script>
+</body>
+</html>

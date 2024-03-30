@@ -4,88 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <title>Welcome</title>
 </head>
-
-<script>
-    let hadithData;
-
-    fetch('https://raw.githubusercontent.com/salman0ansari/Random-Hadith-Generator/main/hadithAPI/bukhari.json')
-        .then(response => response.json())
-        .then(data => {
-            hadithData = data.hadith;
-            fetchRandomHadith();
-        });
-
-    function fetchRandomHadith() {
-        document.getElementById('duaContainer').style.display = 'none';
-    document.getElementById('hadithContainer').style.display = 'block';
-    document.getElementById('randomDuaButton').style.display = 'block';
-  document.getElementById('randomHadithButton').style.display = 'none';
-
-	const randomIndex = Math.floor(Math.random() * hadithData.length);
-        const hadith = hadithData[randomIndex];
-        updateHadithContent(hadith);
-    }
-
-    function fetchHadithById() {
-        const id = parseInt(document.getElementById('hadithId').value);
-        const hadith = hadithData.find(item => item.id === id);
-        if (hadith) {
-            updateHadithContent(hadith);
-        } else {
-            alert('Hadith not found');
-        }
-    }
-
-    function updateHadithContent(hadith) {
-        document.getElementById('hadithText').innerText = `${hadith.hadith_english}`;
-        document.getElementById('reference').innerText = `Reference: ${hadith.refno}`;
-        document.getElementById('header').innerText = hadith.header.trim();
-        document.getElementById('hadithContainer').style.opacity = 1;
-    }
-
-    async function fetchRandomDua() {
-    document.getElementById('hadithContainer').style.display = 'none';
-    document.getElementById('duaContainer').style.display = 'block';
-    document.getElementById('randomHadithButton').style.display = 'block';
-
-    const response = await fetch('https://raw.githubusercontent.com/Saqib-09/Hadith/main/duas.json');
-    const data = await response.json();
-    const randomIndex = Math.floor(Math.random() * data.dua.length);
-    const dua = data.dua[randomIndex];
-
-    // Display the dua in a new design
-    document.getElementById('duaContainer').innerHTML = `
-        <div class="bg-white rounded-lg shadow-lg p-5 m-4">
-            <h1 class="text-xl font-semibold mb-4">Random Dua</h1>
-            <div class="text-lg">${dua.dua_arabic}</div>
-            <div class="text-sm italic mt-2">${dua.transliteration}</div>
-            <div class="text-md mt-2">${dua.translation}</div>
-            <div class="text-xs mt-2">${dua.info}</div>
-        </div>
-    `;
-}
-
-    window.onload = fetchRandomHadith;
-
-</script>
-
 <body class="bg-gradient-to-r from-blue-500 to-green-500 flex justify-center items-center min-h-screen p-4">
-    <div id="hadithContainer" class="max-w-md w-full bg-white rounded-lg shadow-lg p-5 m-4 transition-opacity duration-500 ease-in-out">
-        <h1 class="text-start">
-            <div id="header" class="text-lg"></div>
-            <div id="hadithText" class="mt-1"></div>
-            <div id="reference" class="font-bold mt-3"></div>
-        </h1>
-        <div class="flex flex-wrap justify-center mt-4">
-            <button onclick="fetchRandomHadith()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mx-2">Get Another Hadith</button>
-            <input type="number" id="hadithId" placeholder="Enter Hadith Number" class="border border-gray-300 rounded-md p-2 mx-2">
-            <button onclick="fetchHadithById()" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mx-2">Get Hadith by Number</button>
-        </div>
+    <div class="text-center">
+        <h1 class="text-4xl font-bold mb-8">Welcome</h1>
+        <a href="hadith.html" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mx-2">Learn a Hadith</a>
+        <a href="dua.html" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mx-2">Learn a Dua</a>
+        <a href="99names.html" class="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded mx-2">Learn the Names of Allah</a>
     </div>
-    <div id="duaContainer"></div>
-    <button id="randomDuaButton" onclick="fetchRandomDua()" class="absolute top-4 right-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Get Random Dua</button>
-    <button id="randomHadithButton" onclick="fetchRandomHadith()" class="absolute top-4 right-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded hidden">Get Random Hadith</button>
-
 </body>
 </html>
