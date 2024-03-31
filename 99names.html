@@ -8,9 +8,9 @@
 
 <body class="bg-gradient-to-r from-blue-500 to-green-500 flex justify-center items-center min-h-screen p-4">
     <div class="text-center">
-        <div id="namesContainer" class="flex justify-center mb-8">
-            <!-- Names will be dynamically added here -->
-        </div>
+        <div id="namesContainer" class="flex flex-col sm:flex-row justify-center mb-8">
+   		 <!-- Names will be dynamically added here -->
+	</div>
         <div class="flex justify-center">
             <button id="previousNamesButton" onclick="fetchPreviousNames()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mx-2 hidden">Previous</button>
             <button id="nextNamesButton" onclick="fetchNextNames()" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mx-2">Next</button>
@@ -37,20 +37,20 @@
         }
 
         function updateNames() {
-    const namesContainer = document.getElementById('namesContainer');
-    namesContainer.innerHTML = '';
-    for (let i = currentNamesIndex; i < currentNamesIndex + 3; i++) {
-        if (allNames[i]) {
-            const name = allNames[i];
-            const nameBox = document.createElement('div');
-            nameBox.classList.add('bg-white', 'rounded-lg', 'shadow-lg', 'p-5', 'm-4', 'text-lg');
-            const foundText = `<span class="text-xs">${name.found}</span>`;
-	    nameBox.innerHTML = `<div><strong>${name.number}.</strong> <strong>${name.name}.</strong></div><div>(${name.transliteration}) - ${name.en.meaning}</div><div>${foundText}</div>`;
-            namesContainer.appendChild(nameBox);
-        }
-    }
+    		const namesContainer = document.getElementById('namesContainer');
+    		namesContainer.innerHTML = '';
+    		for (let i = currentNamesIndex; i < currentNamesIndex + 3; i++) {
+        		if (allNames[i]) {
+            			const name = allNames[i];
+            			const nameBox = document.createElement('div');
+            			nameBox.classList.add('bg-white', 'rounded-lg', 'shadow-lg', 'p-5', 'text-lg', 'mx-2', 'my-2', 'sm:my-0', 'flex-1');
+            			const foundText = `<span class="text-xs">${name.found}</span>`;
+	    			nameBox.innerHTML = `<div><strong>${name.number}.</strong> <strong>${name.name}.</strong></div><div>(${name.transliteration}) - ${name.en.meaning}</div><div>${foundText}</div>`;
+            			namesContainer.appendChild(nameBox);
+        		}
+    		}
 
-            updateButtons();
+            	updateButtons();
         }
 
         function updateButtons() {
@@ -69,27 +69,27 @@
         }
 
 	function fetchNameByNumber() {
-    const numberInput = document.getElementById('nameNumberInput').value;
-    const number = parseInt(numberInput);
-    if (number >= 1 && number <= 99) {
-        const name = allNames.find(name => name.number === number);
-        if (name) {
-            const nameBox = document.createElement('div');
-            nameBox.classList.add('bg-white', 'rounded-lg', 'shadow-lg', 'p-5', 'm-4', 'text-lg');
-            const foundText = `<span class="text-xs">${name.found}</span>`;
-            const nameText = `<div><strong>${name.number}.</strong> <strong>${name.name}.</strong></div><div>(${name.transliteration}) - ${name.en.meaning}</div><div>${foundText}</div>`;
-            nameBox.innerHTML = nameText;
-            const namesContainer = document.getElementById('namesContainer');
-            namesContainer.innerHTML = '';
-            namesContainer.appendChild(nameBox);
-        } else {
-            alert('Name not found.');
-        }
-    } else {
-        alert('Please enter a number between 1 and 99.');
-    }
-}
-  function goBack() {
+    		const numberInput = document.getElementById('nameNumberInput').value;
+    		const number = parseInt(numberInput);
+    		if (number >= 1 && number <= 99) {
+        		const name = allNames.find(name => name.number === number);
+        		if (name) {
+            c			const nameBox = document.createElement('div');
+            			nameBox.classList.add('bg-white', 'rounded-lg', 'shadow-lg', 'p-5', 'm-4', 'text-lg');
+            			const foundText = `<span class="text-xs">${name.found}</span>`;
+            			const nameText = `<div><strong>${name.number}.</strong> <strong>${name.name}.</strong></div><div>(${name.transliteration}) - ${name.en.meaning}</div><div>${foundText}</div>`;
+            			nameBox.innerHTML = nameText;
+            			const namesContainer = document.getElementById('namesContainer');
+            			namesContainer.innerHTML = '';
+            			namesContainer.appendChild(nameBox);
+        		} else {
+            			alert('Name not found.');
+        		}
+    		} else {
+        		alert('Please enter a number between 1 and 99.');
+    		}
+	}
+  	function goBack() {
             window.history.back();
         }
     </script>
