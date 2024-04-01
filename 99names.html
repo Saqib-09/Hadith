@@ -5,39 +5,42 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <style>
-        /* CSS for fade-in animation */
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(-10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
 
-#namesContainer {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-end; /* Align items to the right */
-    align-items: flex-end; /* Align items to the top */
-    overflow: hidden; /* Prevent scrollbars */
-}
-.name-box {
-    flex: 0 0 auto; /* Prevent boxes from growing or shrinking */
-    margin: 0.1rem; /* Adjust the spacing between boxes */
-    padding: 0.1rem; /* Adjust the padding inside each box */
-    border: 1px solid #ccc; /* Add a border to each box */
-    border-radius: 0.25rem; /* Add rounded corners to each box */
-    background-color: #fff; /* Set the background color to white */
-}
+        #namesContainer {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            justify-content: center;
+            align-items: start;
+            overflow: hidden;
+        }
+        .name-box {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin: 0.5rem;
+            padding: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 0.25rem;
+            background-color: #fff;
+            animation: fadeIn 1s ease-out;
+        }
     </style>
 </head>
-
 <body class="bg-gradient-to-r from-blue-500 to-green-500 flex justify-center items-center min-h-screen p-4">
     <div class="text-center">
-        <div id="namesContainer" class="flex flex-col sm:flex-row justify-center mb-8">
+        <div id="namesContainer" class="mb-8">
           <!-- Names will be dynamically added here -->
         </div>
         <div class="flex justify-center">
@@ -66,19 +69,18 @@
         }
 
         function updateNames() {
-    const namesContainer = document.getElementById('namesContainer');
-    namesContainer.innerHTML = '';
-    for (let i = currentNamesIndex; i < currentNamesIndex + 3; i++) {
-        if (allNames[i]) {
-            const name = allNames[i];
-            const nameBox = document.createElement('div');
-            nameBox.classList.add('bg-white', 'rounded-lg', 'shadow-lg', 'p-5', 'text-lg', 'mx-2', 'my-2', 'sm:my-0', 'flex-1');
-            const foundText = `<span class="text-xs">${name.found}</span>`;
-	    nameBox.innerHTML = `<div><strong>${name.number}.</strong> <strong>${name.name}.</strong></div><div>(${name.transliteration}) - ${name.en.meaning}</div><div>${foundText}</div>`;
-            namesContainer.appendChild(nameBox);
-        }
-    }
-
+            const namesContainer = document.getElementById('namesContainer');
+            namesContainer.innerHTML = '';
+            for (let i = currentNamesIndex; i < currentNamesIndex + 3; i++) {
+                if (allNames[i]) {
+                    const name = allNames[i];
+                    const nameBox = document.createElement('div');
+                    nameBox.classList.add('bg-white', 'rounded-lg', 'shadow-lg', 'p-5', 'text-lg', 'mx-2', 'my-2', 'sm:my-0', 'flex-1');
+                    const foundText = `<span class="text-xs">${name.found}</span>`;
+                    nameBox.innerHTML = `<div><strong>${name.number}.</strong> <strong>${name.name}.</strong></div><div>(${name.transliteration}) - ${name.en.meaning}</div><div>${foundText}</div>`;
+                    namesContainer.appendChild(nameBox);
+                }
+            }
             updateButtons();
         }
 
@@ -97,61 +99,51 @@
             updateNames();
         }
 
-	function fetchNameByNumber() {
-    const numberInput = document.getElementById('nameNumberInput').value;
-    const number = parseInt(numberInput);
-    if (number >= 1 && number <= 99) {
-        const name = allNames.find(name => name.number === number);
-        if (name) {
-            const nameBox = document.createElement('div');
-            nameBox.classList.add('bg-white', 'rounded-lg', 'shadow-lg', 'p-5', 'm-4', 'text-lg');
-            const foundText = `<span class="text-xs">${name.found}</span>`;
-            const nameText = `<div><strong>${name.number}.</strong> <strong>${name.name}.</strong></div><div>(${name.transliteration}) - ${name.en.meaning}</div><div>${foundText}</div>`;
-            nameBox.innerHTML = nameText;
-            const namesContainer = document.getElementById('namesContainer');
-            namesContainer.innerHTML = '';
-            namesContainer.appendChild(nameBox);
-        } else {
-            alert('Name not found.');
+        function fetchNameByNumber() {
+            const numberInput = document.getElementById('nameNumberInput').value;
+            const number = parseInt(numberInput);
+            if (number >= 1 && number <= 99) {
+                const name = allNames.find(name => name.number === number);
+                if (name) {
+                    const nameBox = document.createElement('div');
+                    nameBox.classList.add('bg-white', 'rounded-lg', 'shadow-lg', 'p-5', 'm-4', 'text-lg');
+                    const foundText = `<span class="text-xs">${name.found}</span>`;
+                    const nameText = `<div><strong>${name.number}.</strong> <strong>${name.name}.</strong></div><div>(${name.transliteration}) - ${name.en.meaning}</div><div>${foundText}</div>`;
+                    nameBox.innerHTML = nameText;
+                    const namesContainer = document.getElementById('namesContainer');
+                    namesContainer.innerHTML = '';
+                    namesContainer.appendChild(nameBox);
+                } else {
+                    alert('Name not found.');
+                }
+            } else {
+                alert('Please enter a number between 1 and 99.');
+            }
         }
-    } else {
-        alert('Please enter a number between 1 and 99.');
-    }
-}
-
 
         function fetchAllNames() {
+    // Ensure to reset the currentNamesIndex to show all names from the start
+    currentNamesIndex = 0;
     const namesContainer = document.getElementById('namesContainer');
     namesContainer.innerHTML = ''; // Clear the existing names
+    namesContainer.style.display = 'grid'; // Use grid layout for better alignment
+    namesContainer.style.gridTemplateColumns = 'repeat(auto-fit, minmax(200px, 1fr))'; // Adjust grid layout for responsiveness
 
-
-    // Hide the existing buttons
+    // Hide navigation buttons
     document.getElementById('previousNamesButton').style.display = 'none';
     document.getElementById('nextNamesButton').style.display = 'none';
     document.getElementById('allNamesButton').style.display = 'none';
     document.getElementById('getName').style.display = 'none';
     document.getElementById('nameNumberInput').style.display = 'none';
 
-    // Fetch all names from the JSON file
-    fetch('https://raw.githubusercontent.com/Saqib-09/Hadith/main/99names.json')
-        .then(response => response.json())
-        .then(data => {
-            const allNames = data.data;
-            allNames.forEach((name, index) => {
-                const nameBox = document.createElement('div');
-                nameBox.classList.add('name-box', 'p-2', 'm-1', 'text-sm', 'bg-white', 'rounded');
-                nameBox.innerHTML = `<div><strong>${index + 1}.</strong> <strong>${name.name}</strong></div><div>(${name.transliteration}) - ${name.en.meaning}</div>`;
-                namesContainer.appendChild(nameBox);
-
-             });
-        })
-        .catch(error => {
-            console.error('Error fetching names:', error);
-            // Optionally, display an error message to the user
-            namesContainer.innerText = 'Error fetching names. Please try again later.';
-        });
+    // Use the allNames array directly
+    allNames.forEach((name) => {
+        const nameBox = document.createElement('div');
+        nameBox.classList.add('name-box', 'p-4', 'm-2', 'text-base', 'bg-white', 'rounded', 'shadow');
+        nameBox.innerHTML = `<div><strong>${name.number}.</strong> <strong>${name.name}</strong></div><div>(${name.transliteration}) - ${name.en.meaning}</div>`;
+        namesContainer.appendChild(nameBox);
+    });
 }
-
 
 
         function goBack() {
