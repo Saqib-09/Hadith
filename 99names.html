@@ -36,6 +36,9 @@
             background-color: #fff;
             animation: fadeIn 1s ease-out;
         }
+        .name-box div[dir="rtl"] strong:last-child {
+    	    font-size: x-large;
+	}
     </style>
 </head>
 <body class="bg-gradient-to-r from-blue-500 to-green-500 flex justify-center items-center min-h-screen p-4">
@@ -140,7 +143,7 @@
     allNames.forEach((name) => {
         const nameBox = document.createElement('div');
         nameBox.classList.add('name-box', 'p-4', 'm-2', 'text-base', 'bg-white', 'rounded', 'shadow');
-        nameBox.innerHTML = `<div><strong>${name.number}.</strong> <strong>${name.name}</strong></div><div>(${name.transliteration}) - ${name.en.meaning}</div>`;
+        nameBox.innerHTML = `<div dir="rtl"><strong>${name.name}</strong></div><div>(${name.transliteration}) - ${name.en.meaning}</div>`;
         namesContainer.appendChild(nameBox);
     });
 }
