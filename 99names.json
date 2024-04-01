@@ -661,6 +661,80 @@
       }
     },
     {
+      "name":"\u0627\u064e\u0644\u0627\u064e\u062d\u064e\u062f\u064f",
+      "transliteration":"Al Ahad",
+      "number":67,
+      "found": "(112:1)",
+      "en":{
+        "meaning":"The One",
+        "desc": "The One: Is He Who has uniqueness as an attribute"
+      }
+    },
+    {
+      "name":"\u0627\u0644\u0635\u064e\u0651\u0645\u064e\u062f\u064f",
+      "transliteration":"As Samad",
+      "number":68,
+      "found": "(112:2)",
+      "en":{
+        "meaning":"The Supreme Provider",
+        "desc": "Is the One to whom we can rely for any business and who can be called upon for all our needs; One who has no children or parents, neither like nor equivalent, according to Al-Hakim's explanation; The One who needs nothing and the One who everything needs, in order to exist, etc."
+      }
+    },
+    {
+      "name":"\u0627\u0644\u0652\u0642\u064e\u0627\u062f\u0650\u0631\u064f",
+      "transliteration":"Al Qaadir",
+      "number":69,
+      "found": "(6:65)(36:81)(46:33)(75:40)",
+      "en":{
+        "meaning":"The Powerful",
+        "desc": "Is the One who is unaffected by weakness, the One whose power is absolute and dominates all creatures and the One whom absolutely nothing can weaken"
+      }
+    },
+    {
+      "name":"\u0627\u0644\u0652\u0645\u064f\u0642\u0652\u062a\u064e\u062f\u0650\u0631\u064f",
+      "transliteration":"Al Muqtadir",
+      "number":70,
+      "found": "(18:45)(54:42)(54:55)",
+      "en":{
+        "meaning":"The Creator of all power",
+        "desc": "Is the One who is mighty over all things and the One whose capacities are absolutely limitless"
+      },
+      "fr":{
+        "meaning":"Le Tr\u00E8s Puissant",
+        "desc": "Est Celui qui est puissant sur toute chose et Celui dont les capacit\\u00E9s sont absolument sans limites "
+      }
+    },
+    {
+      "name":"\u0627\u0644\u0652\u0645\u064f\u0642\u064e\u062f\u0650\u0651\u0645\u064f",
+      "transliteration":"Al Muqaddim",
+      "number":71,
+      "found": "(16:61)(17:34)",
+      "en":{
+        "meaning":"The Expediter",
+        "desc": "Is He who is free from the characteristics of creatures and better than any creature; He who fixes the speed of events, accelerates certain things in the eyes of people according to a destiny and grants each thing a value, a rank, a time and characteristics which suit Him according to wisdom"
+      }
+    },
+    {
+      "name":"\u0627\u0644\u0652\u0645\u064f\u0624\u064e\u062e\u0650\u0651\u0631\u064f",
+      "transliteration":"Al Mu\u2019akhir",
+      "number":72,
+      "found": "(71:4)",
+      "en":{
+        "meaning":"The Delayer",
+        "desc": "Is He who is free from the characteristics of creatures and better than any creature; The one who intends the slowness of events and slows down certain things in the eyes of people according to a destiny and grants each thing a value, a rank, a time and characteristics which suit it according to a wisdom (cf no 71)"
+      }
+    },
+    {
+      "name":"\u0627\u0644\u0623\u0648\u064e\u0651\u0644\u064f",
+      "transliteration":"Al Awwal",
+      "number":73,
+      "found": "(57:3)",
+      "en":{
+        "meaning":"The First",
+        "desc": "The First: Is the One who exists without creatures, without beginning and without time; One who is exempt from being created, from the appearance of a new attribute and from change, One who exists without coming into existence"
+      }
+    },
+    {
       "name": "\u0627\u0644\u0622\u062e\u0650\u0631\u064f",
       "transliteration": "Al Aakhir",
       "number": 74,
