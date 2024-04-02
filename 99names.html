@@ -17,28 +17,43 @@
         }
 
         #namesContainer {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1rem;
-            justify-content: center;
-            align-items: start;
-            overflow: hidden;
-        }
-        .name-box {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            margin: 0.5rem;
-            padding: 1rem;
-            border: 1px solid #ccc;
-            border-radius: 0.25rem;
-            background-color: #fff;
-            animation: fadeIn 1s ease-out;
-        }
-        .name-box div[dir="rtl"] strong:last-child {
-    	    font-size: x-large;
-	}
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+    justify-content: center;
+    align-items: start;
+    overflow: hidden;
+}
+
+.name-box {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0.5rem;
+    padding: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 0.25rem;
+    background-color: #fff;
+    animation: fadeIn 1s ease-out;
+}
+
+/* Reverse the order for names in the 'All Names' view */
+#namesContainer.all-names-mode {
+    direction: rtl;
+}
+
+.name-box.all-names-mode {
+    direction: ltr; /* Ensure the text inside the boxes is left-to-right */
+}
+
+        .name-box div[dir="rtl"] strong {
+    font-size: x-large; /* Adjust for larger font size */
+}
+
+.name-box div[dir="rtl"] span {
+    font-size: large; /* Adjust font size for number */
+}
     </style>
 </head>
 <body class="bg-gradient-to-r from-blue-500 to-green-500 flex justify-center items-center min-h-screen p-4">
@@ -72,7 +87,8 @@
         }
 
         function updateNames() {
-            const namesContainer = document.getElementById('namesContainer');
+    	    const namesContainer = document.getElementById('namesContainer');
+	    namesContainer.classList.remove('all-names-mode');
             namesContainer.innerHTML = '';
             for (let i = currentNamesIndex; i < currentNamesIndex + 3; i++) {
                 if (allNames[i]) {
@@ -80,13 +96,14 @@
                     const nameBox = document.createElement('div');
                     nameBox.classList.add('bg-white', 'rounded-lg', 'shadow-lg', 'p-5', 'text-lg', 'mx-2', 'my-2', 'sm:my-0', 'flex-1');
                     const foundText = `<span class="text-xs">${name.found}</span>`;
-                    nameBox.innerHTML = `<div><strong>${name.number}.</strong> <strong>${name.name}.</strong></div><div>(${name.transliteration}) - ${name.en.meaning}</div><div>${foundText}</div>`;
+                    nameBox.innerHTML = `<div dir="rtl">${name.number}. <strong>${name.name}</strong></div><div>(${name.transliteration}) - ${name.en.meaning}</div><div>${foundText}</div>`;
                     namesContainer.appendChild(nameBox);
                 }
             }
             updateButtons();
         }
-
+`<div dir="rtl"><strong>${name.name}</strong> <strong>${name.number}.</strong></div><div>(${name.transliteration}) - ${name.en.meaning}</div><div>${foundText}</div>`; // Adjusted order and font size
+                   
         function updateButtons() {
             document.getElementById('previousNamesButton').style.display = currentNamesIndex === 0 ? 'none' : 'block';
             document.getElementById('nextNamesButton').style.display = currentNamesIndex + 3 >= allNames.length ? 'none' : 'block';
@@ -111,7 +128,8 @@
                     const nameBox = document.createElement('div');
                     nameBox.classList.add('bg-white', 'rounded-lg', 'shadow-lg', 'p-5', 'm-4', 'text-lg');
                     const foundText = `<span class="text-xs">${name.found}</span>`;
-                    const nameText = `<div><strong>${name.number}.</strong> <strong>${name.name}.</strong></div><div>(${name.transliteration}) - ${name.en.meaning}</div><div>${foundText}</div>`;
+                    const nameText = `<div dir="rtl">${name.number}. <strong>${name.name}</strong></div><div>(${name.transliteration}) - ${name.en.meaning}</div><div>${foundText}</div>`;
+
                     nameBox.innerHTML = nameText;
                     const namesContainer = document.getElementById('namesContainer');
                     namesContainer.innerHTML = '';
@@ -129,6 +147,7 @@
     currentNamesIndex = 0;
     const namesContainer = document.getElementById('namesContainer');
     namesContainer.innerHTML = ''; // Clear the existing names
+    namesContainer.classList.add('all-names-mode');
     namesContainer.style.display = 'grid'; // Use grid layout for better alignment
     namesContainer.style.gridTemplateColumns = 'repeat(auto-fit, minmax(200px, 1fr))'; // Adjust grid layout for responsiveness
 
