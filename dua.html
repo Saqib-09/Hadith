@@ -21,53 +21,60 @@
     </div>
     <div class="flex flex-wrap justify-center mt-4">
         <button id="previousDuaButton" onclick="moveToPreviousDua()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mx-2">Previous Dua</button>
-    	<button id="randomDuaButton" onclick="fetchRandomDua()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mx-2">Get New Dua</button>
+    	<button id="nextDuaButton" onclick="moveToNextDua()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mx-2">Next Dua</button>
     </div>
     <button id="backButton" onclick="goBack()" class="absolute top-4 left-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Go Back</button>
 
     <script>
-        let previousDuas = [];
-        async function fetchRandomDua() {
-            // Fetch random dua
-            const response = await fetch('https://raw.githubusercontent.com/Saqib-09/Hadith/main/duas.json');
-            const data = await response.json();
-            const randomIndex = Math.floor(Math.random() * data.dua.length);
-            const dua = data.dua[randomIndex];
+        let currentDuaIndex = 0;
+let duas = [];
 
-            // Display the dua
-            document.getElementById('duaText').innerText = dua.dua_arabic;
-            document.getElementById('duaTransliteration').innerText = dua.transliteration;
-            document.getElementById('duaTranslation').innerText = dua.translation;
-            document.getElementById('duaInfo').innerText = dua.info;
+async function fetchDuas() {
+    // Fetch all duas
+    const response = await fetch('https://raw.githubusercontent.com/Saqib-09/Hadith/main/duas.json');
+    const data = await response.json();
+    duas = data.dua;
 
-            // Update previousDuas
-            previousDuas.push(dua);
+    // Display the first dua
+    displayDua(currentDuaIndex);
+}
 
-            // Show the "Move to Previous Dua" button
-            document.getElementById('previousDuaButton').style.display = 'block';
-        }
+function displayDua(index) {
+    const dua = duas[index];
 
-        function moveToPreviousDua() {
-            // Pop the previous dua from the stack
-            const previousDua = previousDuas.pop();
+    // Display the dua
+    document.getElementById('duaText').innerText = dua.dua_arabic;
+    document.getElementById('duaTransliteration').innerText = dua.transliteration;
+    document.getElementById('duaTranslation').innerText = dua.translation;
+    document.getElementById('duaInfo').innerText = dua.info;
 
-            // Display the previous dua
-            document.getElementById('duaText').innerText = previousDua.dua_arabic;
-            document.getElementById('duaTransliteration').innerText = previousDua.transliteration;
-            document.getElementById('duaTranslation').innerText = previousDua.translation;
-            document.getElementById('duaInfo').innerText = previousDua.info;
+    // Update the visibility of the "Previous Dua" button
+    document.getElementById('previousDuaButton').style.display = index > 0 ? 'block' : 'none';
 
-            // If there are no more previous duas, hide the "Move to Previous Dua" button
-            if (previousDuas.length === 0) {
-                document.getElementById('previousDuaButton').style.display = 'none';
-            }
-        }
+    // Update the visibility of the "Next Dua" button
+    document.getElementById('nextDuaButton').style.display = index < duas.length - 1 ? 'block' : 'none';
+}
+
+function moveToPreviousDua() {
+    if (currentDuaIndex > 0) {
+        currentDuaIndex--;
+        displayDua(currentDuaIndex);
+    }
+}
+
+function moveToNextDua() {
+    if (currentDuaIndex < duas.length - 1) {
+        currentDuaIndex++;
+        displayDua(currentDuaIndex);
+    }
+}
+
 
         function goBack() {
             window.history.back();
         }	
 
-        window.onload = fetchRandomDua;
+        window.onload = fetchDuas;
     </script>
 </body>
 </html>
