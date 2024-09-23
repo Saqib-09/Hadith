@@ -17,12 +17,12 @@
         <!-- FAQ Dropdown -->
         <div class="relative inline-block text-left mt-4">
             <div>
-                <button type="button" class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded mx-2 inline-flex items-center">
+                <button id="faqButton" type="button" class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded mx-2 inline-flex items-center">
                     FAQs
                     <svg class="ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                 </button>
             </div>
-            <div class="hidden origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
+            <div id="dropdownMenu" class="hidden origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
                 <div class="py-1" role="menu" aria-orientation="vertical" aria-labelledby="menu-button">
                     <a href="zakat_FAQ.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Zakat</a>
                 </div>
@@ -31,12 +31,21 @@
     </div>
 
     <script>
-        // Toggle dropdown visibility
-        const faqButton = document.querySelector('button');
-        const dropdownMenu = document.querySelector('.hidden');
-        
-        faqButton.addEventListener('click', () => {
+        // Get elements
+        const faqButton = document.getElementById('faqButton');
+        const dropdownMenu = document.getElementById('dropdownMenu');
+
+        // Toggle dropdown visibility on button click
+        faqButton.addEventListener('click', (event) => {
             dropdownMenu.classList.toggle('hidden');
+            event.stopPropagation(); // Prevents click from bubbling up and closing immediately
+        });
+
+        // Close the dropdown when clicking anywhere outside the dropdown or button
+        window.addEventListener('click', (event) => {
+            if (!faqButton.contains(event.target) && !dropdownMenu.contains(event.target)) {
+                dropdownMenu.classList.add('hidden');
+            }
         });
     </script>
 </body>
