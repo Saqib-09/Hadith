@@ -56,7 +56,8 @@
 }
     </style>
 </head>
-<body class="bg-gradient-to-r from-blue-500 to-green-500 flex justify-center items-center min-h-screen p-4">
+<body class="bg-cover bg-center flex justify-center items-center min-h-screen p-4" style="background-image: url('https://raw.githubusercontent.com/Saqib-09/Hadith/refs/heads/main/images/bg5.jpg'); background-attachment: fixed;">
+    <div class="flex flex-col items-center"> <!-- Added flex-col here -->
     <div class="text-center">
         <div id="namesContainer" class="mb-8">
           <!-- Names will be dynamically added here -->
@@ -71,7 +72,12 @@
     <button id="getName" onclick="fetchNameByNumber()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Get Name</button>
 </div>
 </div>
-    <button id="backButton" onclick="goBack()" class="absolute top-4 left-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Go Back</button>
+</div>
+	<<!-- Home Button (top-left corner) -->
+    <a href="index.html" id="homeButton" class="fixed top-4 left-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded z-10">Home</a>
+    
+    <!-- Back Button (top-right corner, hidden by default) -->
+    <button id="backButtonTopRight" onclick="goBackToMain()" class="fixed top-4 right-4 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded z-10 hidden">Back</button>
 
     <script>
         let currentNamesIndex = 0;
@@ -102,7 +108,7 @@
             }
             updateButtons();
         }
-`<div dir="rtl"><strong>${name.name}</strong> <strong>${name.number}.</strong></div><div>(${name.transliteration}) - ${name.en.meaning}</div><div>${foundText}</div>`; // Adjusted order and font size
+
                    
         function updateButtons() {
             document.getElementById('previousNamesButton').style.display = currentNamesIndex === 0 ? 'none' : 'block';
@@ -158,23 +164,31 @@
     document.getElementById('getName').style.display = 'none';
     document.getElementById('nameNumberInput').style.display = 'none';
 
-    // Use the allNames array directly
-    allNames.forEach((name) => {
-        const nameBox = document.createElement('div');
-        nameBox.classList.add('name-box', 'p-4', 'm-2', 'text-base', 'bg-white', 'rounded', 'shadow');
-        nameBox.innerHTML = `<div dir="rtl"><strong>${name.name}</strong></div><div>(${name.transliteration}) - ${name.en.meaning}</div>`;
-        namesContainer.appendChild(nameBox);
-    });
+    document.getElementById('backButtonTopRight').style.display = 'block'; // Show the back button
+
+            allNames.forEach((name) => {
+                const nameBox = document.createElement('div');
+                nameBox.classList.add('name-box', 'p-4', 'm-2', 'text-base', 'bg-white', 'rounded', 'shadow');
+                nameBox.innerHTML = `<div dir="rtl"><strong>${name.name}</strong></div><div>(${name.transliteration}) - ${name.en.meaning}</div>`;
+                namesContainer.appendChild(nameBox);
+            });
 }
 
 
-        function goBack() {
-    if (document.referrer.includes(window.location.host)) {
-        window.history.back();
-    } else {
-        window.location.href = 'index.html'; // Or specify the path to your welcome page if different
-    }
-}
+        function goBackToMain() {
+            // Reset the page to its original state
+            currentNamesIndex = 0;
+            updateNames();
+
+            // Hide the back button and show other navigation buttons
+            document.getElementById('backButtonTopRight').style.display = 'none';
+            document.getElementById('previousNamesButton').style.display = 'block';
+            document.getElementById('nextNamesButton').style.display = 'block';
+            document.getElementById('allNamesButton').style.display = 'block';
+            document.getElementById('getName').style.display = 'block';
+            document.getElementById('nameNumberInput').style.display = 'block';
+        }
     </script>
+	
 </body>
 </html>
