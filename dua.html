@@ -12,16 +12,18 @@
     </style>
 </head>
 
-<body class="bg-gradient-to-r from-blue-500 to-green-500 flex flex-col justify-center items-center min-h-screen p-4">
-    <div id="duaContainer" class="max-w-md w-full bg-white rounded-lg shadow-lg p-5 m-4 transition-opacity duration-500 ease-in-out scroll">
-        <div id="duaText" class="text-xl"></div>
-        <div id="duaTransliteration" class="text-lg italic mt-2"></div>
-        <div id="duaTranslation" class="text-lg mt-2"></div>
-        <div id="duaInfo" class="text-sm mt-2"></div>
-    </div>
-    <div class="flex flex-wrap justify-center mt-4">
-        <button id="previousDuaButton" onclick="moveToPreviousDua()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mx-2">Previous Dua</button>
-    	<button id="nextDuaButton" onclick="moveToNextDua()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mx-2">Next Dua</button>
+<body class="bg-cover bg-center flex justify-center items-center min-h-screen p-4" style="background-image: url('https://raw.githubusercontent.com/Saqib-09/Hadith/refs/heads/main/images/bg1.jpg');">
+    <div class="flex flex-col items-center"> <!-- Added flex-col here -->
+        <div id="duaContainer" class="max-w-md w-full bg-white rounded-lg shadow-lg p-5 m-4 transition-opacity duration-500 ease-in-out scroll">
+            <div id="duaText" class="text-xl"></div>
+            <div id="duaTransliteration" class="text-lg italic mt-2"></div>
+            <div id="duaTranslation" class="text-lg mt-2"></div>
+            <div id="duaInfo" class="text-sm mt-2"></div>
+        </div>
+        <div class="flex justify-center mt-4"> <!-- Removed flex-wrap and made sure flex-col is used in parent div -->
+            <button id="previousDuaButton" onclick="moveToPreviousDua()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mx-2">Previous Dua</button>
+            <button id="nextDuaButton" onclick="moveToNextDua()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mx-2">Next Dua</button>
+        </div>
     </div>
     <button id="backButton" onclick="goBack()" class="absolute top-4 left-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Go Back</button>
 
@@ -76,5 +78,6 @@ function moveToNextDua() {
 
         window.onload = fetchDuas;
     </script>
+	
 </body>
 </html>
